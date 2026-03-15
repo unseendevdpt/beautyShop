@@ -18,18 +18,27 @@
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
-            <flux:spacer />
-
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
+             <flux:sidebar.nav>
+                <flux:sidebar.group :heading="__('Users Management')" class="grid">
+                    @can('access_users')
+                    <flux:sidebar.item icon="users" :href="route('admin.users.index')" :current="request()->routeIs('admin.users.index')" wire:navigate>
+                        {{ __('Users') }}
+                    </flux:sidebar.item>
+                    @endcan
+                    @can('access_roles')
+                    <flux:sidebar.item icon="user-group" :href="route('admin.roles.index')" :current="request()->routeIs('admin.roles.index')" wire:navigate>
+                        {{ __('Roles') }}
+                    </flux:sidebar.item>
+                    @endcan
+                    @can('access_permissions')
+                    <flux:sidebar.item icon="lock-closed" :href="route('admin.permissions.index')" :current="request()->routeIs('admin.permissions.index')" wire:navigate>
+                        {{ __('Permissions') }}
+                    </flux:sidebar.item>
+                    @endcan
+                </flux:sidebar.group>
             </flux:sidebar.nav>
 
+            <flux:spacer />
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
 
